@@ -56,7 +56,7 @@ It will give the details of keywords AI,ML,computer Vision in json formate.
 Json Response.
 ```json
 [
-    0:{
+    "0":{
         // first website
         "ls_news":[
             {
@@ -64,7 +64,7 @@ Json Response.
                 "AI":[
                     {
                         //article
-                        0:[
+                        "0":[
                             "title":"article tilte",
                             "link":"link to the orginal website",
                             "description":"description about the website",
@@ -109,7 +109,7 @@ Json Response.
 
 ```json
 [
-    0:{
+    "0":{
         // first website
         "ls_news":[
             {
@@ -117,7 +117,7 @@ Json Response.
                 "GA":[
                     {
                         //article
-                        0:[
+                        "0":[
                             "title":"article tilte",
                             "link":"link to the orginal website",
                             "description":"description about the website",
@@ -186,7 +186,7 @@ Json Response.
 "ls_news":[
             {
                 //article
-                0:[
+                "0":[
                     "title":"article tilte",
                     "link":"link to the orginal website",
                     "description":"description about the website",
@@ -198,7 +198,7 @@ Json Response.
 "NDTV_news":[
             {
                 //article
-                0:[
+                "0":[
                     "title":"article tilte",
                     "link":"link to the orginal website",
                     "description":"description about the website",
@@ -230,7 +230,7 @@ Json Response.
 "ls_news":[
             {
                 //article
-                0:[
+                "0":[
                     "title":"article tilte",
                     "link":"link to the orginal website",
                     "description":"description about the website",
@@ -242,7 +242,7 @@ Json Response.
 "NDTV_news":[
             {
                 //article
-                0:[
+                "0":[
                     "title":"article tilte",
                     "link":"link to the orginal website",
                     "description":"description about the website",
