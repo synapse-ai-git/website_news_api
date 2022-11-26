@@ -1,6 +1,6 @@
 import Express, { application } from 'express';
 import * as Cheerio from 'cheerio';
-
+import fetch from 'node-fetch';
 // app
 const app = Express();
 
@@ -13,8 +13,8 @@ const LS_url = 'https://www.livescience.com/search'; // https://www.livescience.
 
 // header
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    next();
+	res.header('Access-Control-Allow-Origin', '*');
+	next();
 });
 
 
@@ -22,155 +22,155 @@ app.use((req, res, next) => {
 app.get('/api/all',(res,req)=>{
 
 
-    const datas = async () => {
-        var datas = [];
-        var NDTV = {
-            AI : [],
-            ML : [],
-            CV : [],
+	const datas = async () => {
+		var datas = [];
+		var NDTV = {
+			AI : [],
+			ML : [],
+			CV : [],
 
-        };
-        var LS = {
-            AI : [],
-            ML : [],
-            CV : [],
-        };
-
-
-        // AI
-
-        var querry = 'Artificial intelligence';
-
-        var ndtv_url = NDTV_url+querry;
-        var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
-        var $ = Cheerio.load(response);
-
-        var news_list = $('#news_list > ul > li');
-
-        news_list.each((i,el)=>{
-            let img = $(el).find('span > img').attr("src");
-            let title = $(el).find('div.src_itm-ttl > a').text().trim();
-            let link = $(el).find('div.src_itm-ttl > a').attr('href');
-            let description = $(el).find('div.src_itm-txt').text().trim();
-
-            NDTV.AI.push({
-                title,img,link,description
-            });
-
-        });
-
-        var ls_url = `${LS_url}?searchTerm=${querry}`;
-        response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
-        $ = Cheerio.load(response);
+		};
+		var LS = {
+			AI : [],
+			ML : [],
+			CV : [],
+		};
 
 
-        var data_list = $('#content > section > div.listingResults > div');
+		// AI
+
+		var querry = 'Artificial intelligence';
+
+		var ndtv_url = NDTV_url+querry;
+		var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
+		var $ = Cheerio.load(response);
+
+		var news_list = $('#news_list > ul > li');
+
+		news_list.each((i,el)=>{
+			let img = $(el).find('span > img').attr("src");
+			let title = $(el).find('div.src_itm-ttl > a').text().trim();
+			let link = $(el).find('div.src_itm-ttl > a').attr('href');
+			let description = $(el).find('div.src_itm-txt').text().trim();
+
+			NDTV.AI.push({
+				title,img,link,description
+			});
+
+		});
+
+		var ls_url = `${LS_url}?searchTerm=${querry}`;
+		response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
+		$ = Cheerio.load(response);
 
 
-        data_list.each((i,el)=>{
-            let link = $(el).find('a').attr('href');
-            let img = $(el).find('picture > img').attr('src');
-            let title = $(el).find('header > h3').text().trim();
-            let description = $(el).find('div.content > p.synopsis').text().trim();
-
-            LS.AI.push({
-                title,img,link,description
-            });
-        });
+		var data_list = $('#content > section > div.listingResults > div');
 
 
-        // ML
+		data_list.each((i,el)=>{
+			let link = $(el).find('a').attr('href');
+			let img = $(el).find('picture > img').attr('src');
+			let title = $(el).find('header > h3').text().trim();
+			let description = $(el).find('div.content > p.synopsis').text().trim();
 
-        querry = 'Machine learning';
-
-        var ndtv_url = NDTV_url+querry;
-        var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
-        var $ = Cheerio.load(response);
-
-        var news_list = $('#news_list > ul > li');
-
-        news_list.each((i,el)=>{
-            let img = $(el).find('span > img').attr("src");
-            let title = $(el).find('div.src_itm-ttl > a').text().trim();
-            let link = $(el).find('div.src_itm-ttl > a').attr('href');
-            let description = $(el).find('div.src_itm-txt').text().trim();
-
-            NDTV.ML.push({
-                title,img,link,description
-            });
-
-        });
-
-        var ls_url = `${LS_url}?searchTerm=${querry}`;
-        response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
-        $ = Cheerio.load(response);
+			LS.AI.push({
+				title,img,link,description
+			});
+		});
 
 
-        var data_list = $('#content > section > div.listingResults > div');
+		// ML
+
+		querry = 'Machine learning';
+
+		var ndtv_url = NDTV_url+querry;
+		var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
+		var $ = Cheerio.load(response);
+
+		var news_list = $('#news_list > ul > li');
+
+		news_list.each((i,el)=>{
+			let img = $(el).find('span > img').attr("src");
+			let title = $(el).find('div.src_itm-ttl > a').text().trim();
+			let link = $(el).find('div.src_itm-ttl > a').attr('href');
+			let description = $(el).find('div.src_itm-txt').text().trim();
+
+			NDTV.ML.push({
+				title,img,link,description
+			});
+
+		});
+
+		var ls_url = `${LS_url}?searchTerm=${querry}`;
+		response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
+		$ = Cheerio.load(response);
 
 
-        data_list.each((i,el)=>{
-            let link = $(el).find('a').attr('href');
-            let img = $(el).find('picture > img').attr('src');
-            let title = $(el).find('header > h3').text().trim();
-            let description = $(el).find('div.content > p.synopsis').text().trim();
-
-            LS.ML.push({
-                title,img,link,description
-            });
-        });
+		var data_list = $('#content > section > div.listingResults > div');
 
 
+		data_list.each((i,el)=>{
+			let link = $(el).find('a').attr('href');
+			let img = $(el).find('picture > img').attr('src');
+			let title = $(el).find('header > h3').text().trim();
+			let description = $(el).find('div.content > p.synopsis').text().trim();
 
-        // computer Vision
-
-        querry = 'Computer Vision';
-
-        var ndtv_url = NDTV_url+querry;
-        var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
-        var $ = Cheerio.load(response);
-
-        var news_list = $('#news_list > ul > li');
-
-        news_list.each((i,el)=>{
-            let img = $(el).find('span > img').attr("src");
-            let title = $(el).find('div.src_itm-ttl > a').text().trim();
-            let link = $(el).find('div.src_itm-ttl > a').attr('href');
-            let description = $(el).find('div.src_itm-txt').text().trim();
-
-            NDTV.CV.push({
-                title,img,link,description
-            });
-
-        });
-
-        var ls_url = `${LS_url}?searchTerm=${querry}`;
-        response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
-        $ = Cheerio.load(response);
+			LS.ML.push({
+				title,img,link,description
+			});
+		});
 
 
-        var data_list = $('#content > section > div.listingResults > div');
+
+		// computer Vision
+
+		querry = 'Computer Vision';
+
+		var ndtv_url = NDTV_url+querry;
+		var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
+		var $ = Cheerio.load(response);
+
+		var news_list = $('#news_list > ul > li');
+
+		news_list.each((i,el)=>{
+			let img = $(el).find('span > img').attr("src");
+			let title = $(el).find('div.src_itm-ttl > a').text().trim();
+			let link = $(el).find('div.src_itm-ttl > a').attr('href');
+			let description = $(el).find('div.src_itm-txt').text().trim();
+
+			NDTV.CV.push({
+				title,img,link,description
+			});
+
+		});
+
+		var ls_url = `${LS_url}?searchTerm=${querry}`;
+		response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
+		$ = Cheerio.load(response);
 
 
-        data_list.each((i,el)=>{
-            let link = $(el).find('a').attr('href');
-            let img = $(el).find('picture > img').attr('src');
-            let title = $(el).find('header > h3').text().trim();
-            let description = $(el).find('div.content > p.synopsis').text().trim();
+		var data_list = $('#content > section > div.listingResults > div');
 
-            LS.CV.push({
-                title,img,link,description
-            });
-        });
 
-        datas.push({
-            'NDTV_news':NDTV,'LS_news':LS
-        });
+		data_list.each((i,el)=>{
+			let link = $(el).find('a').attr('href');
+			let img = $(el).find('picture > img').attr('src');
+			let title = $(el).find('header > h3').text().trim();
+			let description = $(el).find('div.content > p.synopsis').text().trim();
 
-        res.res.send(datas);
+			LS.CV.push({
+				title,img,link,description
+			});
+		});
 
-    };
-    datas();
+		datas.push({
+			'NDTV_news':NDTV,'LS_news':LS
+		});
+
+		res.res.send(datas);
+
+	};
+	datas();
 });
 
 
@@ -178,497 +178,497 @@ app.get('/api/all',(res,req)=>{
 // all page
 
 app.get('/api/all/:page',(res,req)=>{
-    
-    var page = req.req.params.page;
 
-    const data = async () => {
+	var page = req.req.params.page;
 
-        var datas = [];
-        var NDTV = {
-            AI : [],
-            ML : [],
-            CV : [],
+	const data = async () => {
 
-        };
-        var LS = {
-            AI : [],
-            ML : [],
-            CV : [],
-        };
+		var datas = [];
+		var NDTV = {
+			AI : [],
+			ML : [],
+			CV : [],
 
-
-        // AI
-
-        var querry = 'Artificial intelligence';
-
-        var ndtv_url = NDTV_api+`${page}/query/${querry}`;
-
-        var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
-        var $ = Cheerio.load(response);
-
-        var news_data = $('ul > li');
-
-        news_data.each((i,el)=>{
-
-            let img = $(el).find('span > img').attr("src");
-            let title = $(el).find('div.src_itm-ttl > a').text().trim();
-            let link = $(el).find('div.src_itm-ttl > a').attr('href');
-            let description = $(el).find('div.src_itm-txt').text().trim();
-
-            NDTV.AI.push({
-                title,img,link,description
-            });
-
-        });
-
-        // ls
-
-        var ls_url = `${LS_url}/page/${page}?searchTerm=${querry}`;
-
-        var response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
-        var $ = Cheerio.load(response);
+		};
+		var LS = {
+			AI : [],
+			ML : [],
+			CV : [],
+		};
 
 
-        var data_list = $('#content > section > div.listingResults > div');
+		// AI
+
+		var querry = 'Artificial intelligence';
+
+		var ndtv_url = NDTV_api+`${page}/query/${querry}`;
+
+		var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
+		var $ = Cheerio.load(response);
+
+		var news_data = $('ul > li');
+
+		news_data.each((i,el)=>{
+
+			let img = $(el).find('span > img').attr("src");
+			let title = $(el).find('div.src_itm-ttl > a').text().trim();
+			let link = $(el).find('div.src_itm-ttl > a').attr('href');
+			let description = $(el).find('div.src_itm-txt').text().trim();
+
+			NDTV.AI.push({
+				title,img,link,description
+			});
+
+		});
+
+		// ls
+
+		var ls_url = `${LS_url}/page/${page}?searchTerm=${querry}`;
+
+		var response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
+		var $ = Cheerio.load(response);
 
 
-        data_list.each((i,el)=>{
-            let link = $(el).find('a').attr('href');
-            let img = $(el).find('picture > img').attr('src');
-            let title = $(el).find('header > h3').text().trim();
-            let description = $(el).find('div.content > p.synopsis').text().trim();
-
-            LS.AI.push({
-                title,img,link,description
-            });
-        });
+		var data_list = $('#content > section > div.listingResults > div');
 
 
-        // ML
+		data_list.each((i,el)=>{
+			let link = $(el).find('a').attr('href');
+			let img = $(el).find('picture > img').attr('src');
+			let title = $(el).find('header > h3').text().trim();
+			let description = $(el).find('div.content > p.synopsis').text().trim();
 
-        querry = 'Machine learning';
-
-        var ndtv_url = NDTV_api+`${page}/query/${querry}`;
-
-        var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
-        var $ = Cheerio.load(response);
-
-        var news_data = $('ul > li');
-
-        news_data.each((i,el)=>{
-
-            let img = $(el).find('span > img').attr("src");
-            let title = $(el).find('div.src_itm-ttl > a').text().trim();
-            let link = $(el).find('div.src_itm-ttl > a').attr('href');
-            let description = $(el).find('div.src_itm-txt').text().trim();
-
-            NDTV.ML.push({
-                title,img,link,description
-            });
-
-        });
-
-        // ls
-
-        var ls_url = `${LS_url}/page/${page}?searchTerm=${querry}`;
-
-        var response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
-        var $ = Cheerio.load(response);
+			LS.AI.push({
+				title,img,link,description
+			});
+		});
 
 
-        var data_list = $('#content > section > div.listingResults > div');
+		// ML
+
+		querry = 'Machine learning';
+
+		var ndtv_url = NDTV_api+`${page}/query/${querry}`;
+
+		var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
+		var $ = Cheerio.load(response);
+
+		var news_data = $('ul > li');
+
+		news_data.each((i,el)=>{
+
+			let img = $(el).find('span > img').attr("src");
+			let title = $(el).find('div.src_itm-ttl > a').text().trim();
+			let link = $(el).find('div.src_itm-ttl > a').attr('href');
+			let description = $(el).find('div.src_itm-txt').text().trim();
+
+			NDTV.ML.push({
+				title,img,link,description
+			});
+
+		});
+
+		// ls
+
+		var ls_url = `${LS_url}/page/${page}?searchTerm=${querry}`;
+
+		var response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
+		var $ = Cheerio.load(response);
 
 
-        data_list.each((i,el)=>{
-            let link = $(el).find('a').attr('href');
-            let img = $(el).find('picture > img').attr('src');
-            let title = $(el).find('header > h3').text().trim();
-            let description = $(el).find('div.content > p.synopsis').text().trim();
-
-            LS.ML.push({
-                title,img,link,description
-            });
-        });
-
-        // computer Vision
-
-        querry = 'Computer Vision';
-
-        var ndtv_url = NDTV_api+`${page}/query/${querry}`;
-
-        var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
-        var $ = Cheerio.load(response);
-
-        var news_data = $('ul > li');
-
-        news_data.each((i,el)=>{
-
-            let img = $(el).find('span > img').attr("src");
-            let title = $(el).find('div.src_itm-ttl > a').text().trim();
-            let link = $(el).find('div.src_itm-ttl > a').attr('href');
-            let description = $(el).find('div.src_itm-txt').text().trim();
-
-            NDTV.CV.push({
-                title,img,link,description
-            });
-
-        });
-
-        // ls
-
-        var ls_url = `${LS_url}/page/${page}?searchTerm=${querry}`;
-
-        var response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
-        var $ = Cheerio.load(response);
+		var data_list = $('#content > section > div.listingResults > div');
 
 
-        var data_list = $('#content > section > div.listingResults > div');
+		data_list.each((i,el)=>{
+			let link = $(el).find('a').attr('href');
+			let img = $(el).find('picture > img').attr('src');
+			let title = $(el).find('header > h3').text().trim();
+			let description = $(el).find('div.content > p.synopsis').text().trim();
+
+			LS.ML.push({
+				title,img,link,description
+			});
+		});
+
+		// computer Vision
+
+		querry = 'Computer Vision';
+
+		var ndtv_url = NDTV_api+`${page}/query/${querry}`;
+
+		var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
+		var $ = Cheerio.load(response);
+
+		var news_data = $('ul > li');
+
+		news_data.each((i,el)=>{
+
+			let img = $(el).find('span > img').attr("src");
+			let title = $(el).find('div.src_itm-ttl > a').text().trim();
+			let link = $(el).find('div.src_itm-ttl > a').attr('href');
+			let description = $(el).find('div.src_itm-txt').text().trim();
+
+			NDTV.CV.push({
+				title,img,link,description
+			});
+
+		});
+
+		// ls
+
+		var ls_url = `${LS_url}/page/${page}?searchTerm=${querry}`;
+
+		var response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
+		var $ = Cheerio.load(response);
 
 
-        data_list.each((i,el)=>{
-            let link = $(el).find('a').attr('href');
-            let img = $(el).find('picture > img').attr('src');
-            let title = $(el).find('header > h3').text().trim();
-            let description = $(el).find('div.content > p.synopsis').text().trim();
+		var data_list = $('#content > section > div.listingResults > div');
 
-            LS.CV.push({
-                title,img,link,description
-            });
-        });
 
-        // final dump
+		data_list.each((i,el)=>{
+			let link = $(el).find('a').attr('href');
+			let img = $(el).find('picture > img').attr('src');
+			let title = $(el).find('header > h3').text().trim();
+			let description = $(el).find('div.content > p.synopsis').text().trim();
 
-        datas.push({
-            'NDTV_news':NDTV,'LS_news':LS
-        });
+			LS.CV.push({
+				title,img,link,description
+			});
+		});
 
-        res.res.send(datas);
+		// final dump
 
-    };
-    data();
+		datas.push({
+			'NDTV_news':NDTV,'LS_news':LS
+		});
+
+		res.res.send(datas);
+
+	};
+	data();
 
 });
 
 
 app.get('/api/all2',(res,req)=>{
 
-    const data = async () => {
+	const data = async () => {
 
-        var datas = [];
-        var NDTV = {
-            NLP : [],
-            GA : [],
-            RL : [],
+		var datas = [];
+		var NDTV = {
+			NLP : [],
+			GA : [],
+			RL : [],
 
-        };
-        var LS = {
-            NLP : [],
-            GA : [],
-            RL : [],
-        };
+		};
+		var LS = {
+			NLP : [],
+			GA : [],
+			RL : [],
+		};
 
-        //  Natural Language Processing
+		//  Natural Language Processing
 
-        var querry = ' Natural Language Processing';
+		var querry = ' Natural Language Processing';
 
-        var ndtv_url = NDTV_url+querry;
-        var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
-        var $ = Cheerio.load(response);
+		var ndtv_url = NDTV_url+querry;
+		var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
+		var $ = Cheerio.load(response);
 
-        var news_list = $('#news_list > ul > li');
+		var news_list = $('#news_list > ul > li');
 
-        news_list.each((i,el)=>{
-            let img = $(el).find('span > img').attr("src");
-            let title = $(el).find('div.src_itm-ttl > a').text().trim();
-            let link = $(el).find('div.src_itm-ttl > a').attr('href');
-            let description = $(el).find('div.src_itm-txt').text().trim();
+		news_list.each((i,el)=>{
+			let img = $(el).find('span > img').attr("src");
+			let title = $(el).find('div.src_itm-ttl > a').text().trim();
+			let link = $(el).find('div.src_itm-ttl > a').attr('href');
+			let description = $(el).find('div.src_itm-txt').text().trim();
 
-            NDTV.NLP.push({
-                title,img,link,description
-            });
+			NDTV.NLP.push({
+				title,img,link,description
+			});
 
-        });
+		});
 
-        var ls_url = `${LS_url}?searchTerm=${querry}`;
-        response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
-        $ = Cheerio.load(response);
-
-
-        var data_list = $('#content > section > div.listingResults > div');
+		var ls_url = `${LS_url}?searchTerm=${querry}`;
+		response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
+		$ = Cheerio.load(response);
 
 
-        data_list.each((i,el)=>{
-            let link = $(el).find('a').attr('href');
-            let img = $(el).find('picture > img').attr('src');
-            let title = $(el).find('header > h3').text().trim();
-            let description = $(el).find('div.content > p.synopsis').text().trim();
-
-            LS.NLP.push({
-                title,img,link,description
-            });
-        });
+		var data_list = $('#content > section > div.listingResults > div');
 
 
-        // Genetic Algorithm
+		data_list.each((i,el)=>{
+			let link = $(el).find('a').attr('href');
+			let img = $(el).find('picture > img').attr('src');
+			let title = $(el).find('header > h3').text().trim();
+			let description = $(el).find('div.content > p.synopsis').text().trim();
 
-        querry = 'Genetic Algorithm';
-
-        var ndtv_url = NDTV_url+querry;
-        var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
-        var $ = Cheerio.load(response);
-
-        var news_list = $('#news_list > ul > li');
-
-        news_list.each((i,el)=>{
-            let img = $(el).find('span > img').attr("src");
-            let title = $(el).find('div.src_itm-ttl > a').text().trim();
-            let link = $(el).find('div.src_itm-ttl > a').attr('href');
-            let description = $(el).find('div.src_itm-txt').text().trim();
-
-            NDTV.GA.push({
-                title,img,link,description
-            });
-
-        });
-
-        var ls_url = `${LS_url}?searchTerm=${querry}`;
-        response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
-        $ = Cheerio.load(response);
+			LS.NLP.push({
+				title,img,link,description
+			});
+		});
 
 
-        var data_list = $('#content > section > div.listingResults > div');
+		// Genetic Algorithm
+
+		querry = 'Genetic Algorithm';
+
+		var ndtv_url = NDTV_url+querry;
+		var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
+		var $ = Cheerio.load(response);
+
+		var news_list = $('#news_list > ul > li');
+
+		news_list.each((i,el)=>{
+			let img = $(el).find('span > img').attr("src");
+			let title = $(el).find('div.src_itm-ttl > a').text().trim();
+			let link = $(el).find('div.src_itm-ttl > a').attr('href');
+			let description = $(el).find('div.src_itm-txt').text().trim();
+
+			NDTV.GA.push({
+				title,img,link,description
+			});
+
+		});
+
+		var ls_url = `${LS_url}?searchTerm=${querry}`;
+		response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
+		$ = Cheerio.load(response);
 
 
-        data_list.each((i,el)=>{
-            let link = $(el).find('a').attr('href');
-            let img = $(el).find('picture > img').attr('src');
-            let title = $(el).find('header > h3').text().trim();
-            let description = $(el).find('div.content > p.synopsis').text().trim();
-
-            LS.GA.push({
-                title,img,link,description
-            });
-        });
-
-        //  Reinforcement Learning
-
-        querry = 'Reinforcement Learning';
-
-        var ndtv_url = NDTV_url+querry;
-        var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
-        var $ = Cheerio.load(response);
-
-        var news_list = $('#news_list > ul > li');
-
-        news_list.each((i,el)=>{
-            let img = $(el).find('span > img').attr("src");
-            let title = $(el).find('div.src_itm-ttl > a').text().trim();
-            let link = $(el).find('div.src_itm-ttl > a').attr('href');
-            let description = $(el).find('div.src_itm-txt').text().trim();
-
-            NDTV.RL.push({
-                title,img,link,description
-            });
-
-        });
-
-        var ls_url = `${LS_url}?searchTerm=${querry}`;
-        response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
-        $ = Cheerio.load(response);
+		var data_list = $('#content > section > div.listingResults > div');
 
 
-        var data_list = $('#content > section > div.listingResults > div');
+		data_list.each((i,el)=>{
+			let link = $(el).find('a').attr('href');
+			let img = $(el).find('picture > img').attr('src');
+			let title = $(el).find('header > h3').text().trim();
+			let description = $(el).find('div.content > p.synopsis').text().trim();
+
+			LS.GA.push({
+				title,img,link,description
+			});
+		});
+
+		//  Reinforcement Learning
+
+		querry = 'Reinforcement Learning';
+
+		var ndtv_url = NDTV_url+querry;
+		var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
+		var $ = Cheerio.load(response);
+
+		var news_list = $('#news_list > ul > li');
+
+		news_list.each((i,el)=>{
+			let img = $(el).find('span > img').attr("src");
+			let title = $(el).find('div.src_itm-ttl > a').text().trim();
+			let link = $(el).find('div.src_itm-ttl > a').attr('href');
+			let description = $(el).find('div.src_itm-txt').text().trim();
+
+			NDTV.RL.push({
+				title,img,link,description
+			});
+
+		});
+
+		var ls_url = `${LS_url}?searchTerm=${querry}`;
+		response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
+		$ = Cheerio.load(response);
 
 
-        data_list.each((i,el)=>{
-            let link = $(el).find('a').attr('href');
-            let img = $(el).find('picture > img').attr('src');
-            let title = $(el).find('header > h3').text().trim();
-            let description = $(el).find('div.content > p.synopsis').text().trim();
-
-            LS.RL.push({
-                title,img,link,description
-            });
-        });
-
-        datas.push({
-            'NDTV_news':NDTV,'LS_news':LS
-        });
+		var data_list = $('#content > section > div.listingResults > div');
 
 
-        res.res.send(datas);
+		data_list.each((i,el)=>{
+			let link = $(el).find('a').attr('href');
+			let img = $(el).find('picture > img').attr('src');
+			let title = $(el).find('header > h3').text().trim();
+			let description = $(el).find('div.content > p.synopsis').text().trim();
 
-    };
-    data();
+			LS.RL.push({
+				title,img,link,description
+			});
+		});
+
+		datas.push({
+			'NDTV_news':NDTV,'LS_news':LS
+		});
+
+
+		res.res.send(datas);
+
+	};
+	data();
 
 });
 
 
 app.get('/api/all2/:page',(res,req)=>{
 
-    var page = req.req.params.page;
+	var page = req.req.params.page;
 
-    const data = async () => {
+	const data = async () => {
 
-        var datas = [];
-        var NDTV = {
-            NLP : [],
-            GA : [],
-            RL : [],
+		var datas = [];
+		var NDTV = {
+			NLP : [],
+			GA : [],
+			RL : [],
 
-        };
-        var LS = {
-            NLP : [],
-            GA : [],
-            RL : [],
-        };
-
-        
-        //  Natural Language Processing
-
-        var querry = ' Natural Language Processing';
-
-        var ndtv_url = NDTV_api+`${page}/query/${querry}`;
-
-        var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
-        var $ = Cheerio.load(response);
-
-        var news_data = $('ul > li');
-
-        news_data.each((i,el)=>{
-
-            let img = $(el).find('span > img').attr("src");
-            let title = $(el).find('div.src_itm-ttl > a').text().trim();
-            let link = $(el).find('div.src_itm-ttl > a').attr('href');
-            let description = $(el).find('div.src_itm-txt').text().trim();
-
-            NDTV.NLP.push({
-                title,img,link,description
-            });
-
-        });
-
-        // ls
-
-        var ls_url = `${LS_url}/page/${page}?searchTerm=${querry}`;
-
-        var response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
-        var $ = Cheerio.load(response);
+		};
+		var LS = {
+			NLP : [],
+			GA : [],
+			RL : [],
+		};
 
 
-        var data_list = $('#content > section > div.listingResults > div');
+		//  Natural Language Processing
+
+		var querry = ' Natural Language Processing';
+
+		var ndtv_url = NDTV_api+`${page}/query/${querry}`;
+
+		var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
+		var $ = Cheerio.load(response);
+
+		var news_data = $('ul > li');
+
+		news_data.each((i,el)=>{
+
+			let img = $(el).find('span > img').attr("src");
+			let title = $(el).find('div.src_itm-ttl > a').text().trim();
+			let link = $(el).find('div.src_itm-ttl > a').attr('href');
+			let description = $(el).find('div.src_itm-txt').text().trim();
+
+			NDTV.NLP.push({
+				title,img,link,description
+			});
+
+		});
+
+		// ls
+
+		var ls_url = `${LS_url}/page/${page}?searchTerm=${querry}`;
+
+		var response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
+		var $ = Cheerio.load(response);
 
 
-        data_list.each((i,el)=>{
-            let link = $(el).find('a').attr('href');
-            let img = $(el).find('picture > img').attr('src');
-            let title = $(el).find('header > h3').text().trim();
-            let description = $(el).find('div.content > p.synopsis').text().trim();
-
-            LS.NLP.push({
-                title,img,link,description
-            });
-        });
-
-        // Genetic Algorithm
-
-        querry = 'Genetic Algorithm';
-
-        var ndtv_url = NDTV_api+`${page}/query/${querry}`;
-
-        var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
-        var $ = Cheerio.load(response);
-
-        var news_data = $('ul > li');
-
-        news_data.each((i,el)=>{
-
-            let img = $(el).find('span > img').attr("src");
-            let title = $(el).find('div.src_itm-ttl > a').text().trim();
-            let link = $(el).find('div.src_itm-ttl > a').attr('href');
-            let description = $(el).find('div.src_itm-txt').text().trim();
-
-            NDTV.GA.push({
-                title,img,link,description
-            });
-
-        });
-
-        // ls
-
-        var ls_url = `${LS_url}/page/${page}?searchTerm=${querry}`;
-
-        var response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
-        var $ = Cheerio.load(response);
+		var data_list = $('#content > section > div.listingResults > div');
 
 
-        var data_list = $('#content > section > div.listingResults > div');
+		data_list.each((i,el)=>{
+			let link = $(el).find('a').attr('href');
+			let img = $(el).find('picture > img').attr('src');
+			let title = $(el).find('header > h3').text().trim();
+			let description = $(el).find('div.content > p.synopsis').text().trim();
+
+			LS.NLP.push({
+				title,img,link,description
+			});
+		});
+
+		// Genetic Algorithm
+
+		querry = 'Genetic Algorithm';
+
+		var ndtv_url = NDTV_api+`${page}/query/${querry}`;
+
+		var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
+		var $ = Cheerio.load(response);
+
+		var news_data = $('ul > li');
+
+		news_data.each((i,el)=>{
+
+			let img = $(el).find('span > img').attr("src");
+			let title = $(el).find('div.src_itm-ttl > a').text().trim();
+			let link = $(el).find('div.src_itm-ttl > a').attr('href');
+			let description = $(el).find('div.src_itm-txt').text().trim();
+
+			NDTV.GA.push({
+				title,img,link,description
+			});
+
+		});
+
+		// ls
+
+		var ls_url = `${LS_url}/page/${page}?searchTerm=${querry}`;
+
+		var response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
+		var $ = Cheerio.load(response);
 
 
-        data_list.each((i,el)=>{
-            let link = $(el).find('a').attr('href');
-            let img = $(el).find('picture > img').attr('src');
-            let title = $(el).find('header > h3').text().trim();
-            let description = $(el).find('div.content > p.synopsis').text().trim();
-
-            LS.GA.push({
-                title,img,link,description
-            });
-        });
-
-        //  Reinforcement Learning
-
-        querry = 'Reinforcement Learning';
-
-        var ndtv_url = NDTV_api+`${page}/query/${querry}`;
-
-        var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
-        var $ = Cheerio.load(response);
-
-        var news_data = $('ul > li');
-
-        news_data.each((i,el)=>{
-
-            let img = $(el).find('span > img').attr("src");
-            let title = $(el).find('div.src_itm-ttl > a').text().trim();
-            let link = $(el).find('div.src_itm-ttl > a').attr('href');
-            let description = $(el).find('div.src_itm-txt').text().trim();
-
-            NDTV.RL.push({
-                title,img,link,description
-            });
-
-        });
-
-        // ls
-
-        var ls_url = `${LS_url}/page/${page}?searchTerm=${querry}`;
-
-        var response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
-        var $ = Cheerio.load(response);
+		var data_list = $('#content > section > div.listingResults > div');
 
 
-        var data_list = $('#content > section > div.listingResults > div');
+		data_list.each((i,el)=>{
+			let link = $(el).find('a').attr('href');
+			let img = $(el).find('picture > img').attr('src');
+			let title = $(el).find('header > h3').text().trim();
+			let description = $(el).find('div.content > p.synopsis').text().trim();
+
+			LS.GA.push({
+				title,img,link,description
+			});
+		});
+
+		//  Reinforcement Learning
+
+		querry = 'Reinforcement Learning';
+
+		var ndtv_url = NDTV_api+`${page}/query/${querry}`;
+
+		var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
+		var $ = Cheerio.load(response);
+
+		var news_data = $('ul > li');
+
+		news_data.each((i,el)=>{
+
+			let img = $(el).find('span > img').attr("src");
+			let title = $(el).find('div.src_itm-ttl > a').text().trim();
+			let link = $(el).find('div.src_itm-ttl > a').attr('href');
+			let description = $(el).find('div.src_itm-txt').text().trim();
+
+			NDTV.RL.push({
+				title,img,link,description
+			});
+
+		});
+
+		// ls
+
+		var ls_url = `${LS_url}/page/${page}?searchTerm=${querry}`;
+
+		var response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
+		var $ = Cheerio.load(response);
 
 
-        data_list.each((i,el)=>{
-            let link = $(el).find('a').attr('href');
-            let img = $(el).find('picture > img').attr('src');
-            let title = $(el).find('header > h3').text().trim();
-            let description = $(el).find('div.content > p.synopsis').text().trim();
+		var data_list = $('#content > section > div.listingResults > div');
 
-            LS.RL.push({
-                title,img,link,description
-            });
-        });
 
-        datas.push({
-            'NDTV_news':NDTV,'LS_news':LS
-        });
+		data_list.each((i,el)=>{
+			let link = $(el).find('a').attr('href');
+			let img = $(el).find('picture > img').attr('src');
+			let title = $(el).find('header > h3').text().trim();
+			let description = $(el).find('div.content > p.synopsis').text().trim();
 
-        res.res.send(datas)
-    };
-    data();
+			LS.RL.push({
+				title,img,link,description
+			});
+		});
+
+		datas.push({
+			'NDTV_news':NDTV,'LS_news':LS
+		});
+
+		res.res.send(datas)
+	};
+	data();
 
 });
 
@@ -676,121 +676,121 @@ app.get('/api/all2/:page',(res,req)=>{
 // search
 app.get('/api/search/:q',(res,req)=>{
 
-    // querry
-    var querry = req.req.params.q;
+	// querry
+	var querry = req.req.params.q;
 
-    const datas = async () => {
-        var datas = [];
-        var NDTV = [];
-        var LS = [];
+	const datas = async () => {
+		var datas = [];
+		var NDTV = [];
+		var LS = [];
 
-        var ndtv_url = NDTV_url+'ai '+querry;
-        var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
-        var $ = Cheerio.load(response);
+		var ndtv_url = NDTV_url+'ai '+querry;
+		var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
+		var $ = Cheerio.load(response);
 
-        var news_list = $('#news_list > ul > li');
+		var news_list = $('#news_list > ul > li');
 
-        news_list.each((i,el)=>{
-            let img = $(el).find('span > img').attr("src");
-            let title = $(el).find('div.src_itm-ttl > a').text().trim();
-            let link = $(el).find('div.src_itm-ttl > a').attr('href');
-            let description = $(el).find('div.src_itm-txt').text().trim();
+		news_list.each((i,el)=>{
+			let img = $(el).find('span > img').attr("src");
+			let title = $(el).find('div.src_itm-ttl > a').text().trim();
+			let link = $(el).find('div.src_itm-ttl > a').attr('href');
+			let description = $(el).find('div.src_itm-txt').text().trim();
 
-            NDTV.push({
-                title,img,link,description
-            });
+			NDTV.push({
+				title,img,link,description
+			});
 
-        });
+		});
 
-        var ls_url = `${LS_url}?searchTerm=ai ${querry}`;
-        response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
-        $ = Cheerio.load(response);
+		var ls_url = `${LS_url}?searchTerm=ai ${querry}`;
+		response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>{console.log(err)});
+		$ = Cheerio.load(response);
 
-        var data_list = $('#content > section > div.listingResults > div');
+		var data_list = $('#content > section > div.listingResults > div');
 
-        data_list.each((i,el)=>{
-            let link = $(el).find('a').attr('href');
-            let img = $(el).find('picture > img').attr('src');
-            let title = $(el).find('header > h3').text().trim();
-            let description = $(el).find('div.content > p.synopsis').text().trim();
+		data_list.each((i,el)=>{
+			let link = $(el).find('a').attr('href');
+			let img = $(el).find('picture > img').attr('src');
+			let title = $(el).find('header > h3').text().trim();
+			let description = $(el).find('div.content > p.synopsis').text().trim();
 
-            LS.push({
-                title,img,link,description
-            });
-        });
+			LS.push({
+				title,img,link,description
+			});
+		});
 
-        datas.push({
-            'NDTV_news':NDTV,'LS_news':LS
-        });
+		datas.push({
+			'NDTV_news':NDTV,'LS_news':LS
+		});
 
-        res.res.send(datas);
+		res.res.send(datas);
 
-    };
-    datas();
+	};
+	datas();
 });
 
 
 // page for ai
 // search page
 app.get('/api/search/:q/:page',(res,req)=>{
-    
-    var querry = req.req.params.q;
-    var page = req.req.params.page;
 
-    const data = async () => {
+	var querry = req.req.params.q;
+	var page = req.req.params.page;
 
-        var datas = [];
-        var NDTV = [];
-        var LS = [];
+	const data = async () => {
 
-        var ndtv_url = NDTV_api+`${page}/query/${querry}`;
+		var datas = [];
+		var NDTV = [];
+		var LS = [];
 
-        var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
-        var $ = Cheerio.load(response);
+		var ndtv_url = NDTV_api+`${page}/query/${querry}`;
 
-        var news_data = $('ul > li');
+		var response = await fetch(ndtv_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
+		var $ = Cheerio.load(response);
 
-        news_data.each((i,el)=>{
+		var news_data = $('ul > li');
 
-            let img = $(el).find('span > img').attr("src");
-            let title = $(el).find('div.src_itm-ttl > a').text().trim();
-            let link = $(el).find('div.src_itm-ttl > a').attr('href');
-            let description = $(el).find('div.src_itm-txt').text().trim();
+		news_data.each((i,el)=>{
 
-            NDTV.push({
-                title,img,link,description
-            });
+			let img = $(el).find('span > img').attr("src");
+			let title = $(el).find('div.src_itm-ttl > a').text().trim();
+			let link = $(el).find('div.src_itm-ttl > a').attr('href');
+			let description = $(el).find('div.src_itm-txt').text().trim();
 
-        });
+			NDTV.push({
+				title,img,link,description
+			});
 
-        var ls_url = `${LS_url}/page/${page}?searchTerm=${querry}`;
+		});
 
-        var response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
-        var $ = Cheerio.load(response);
+		var ls_url = `${LS_url}/page/${page}?searchTerm=${querry}`;
 
-
-        var data_list = $('#content > section > div.listingResults > div');
+		var response = await fetch(ls_url).then((res)=>res.text()).then((text)=>{return text}).catch((err)=>console.log(err));
+		var $ = Cheerio.load(response);
 
 
-        data_list.each((i,el)=>{
-            let link = $(el).find('a').attr('href');
-            let img = $(el).find('picture > img').attr('src');
-            let title = $(el).find('header > h3').text().trim();
-            let description = $(el).find('div.content > p.synopsis').text().trim();
+		var data_list = $('#content > section > div.listingResults > div');
 
-            LS.push({
-                title,img,link,description
-            });
-        });
 
-        datas.push({
-            'NDTV_news':NDTV,'LS_news':LS
-        });
+		data_list.each((i,el)=>{
+			let link = $(el).find('a').attr('href');
+			let img = $(el).find('picture > img').attr('src');
+			let title = $(el).find('header > h3').text().trim();
+			let description = $(el).find('div.content > p.synopsis').text().trim();
 
-        res.res.send(datas);
+			LS.push({
+				title,img,link,description
+			});
+		});
 
-    };
-    data();
+		datas.push({
+			'NDTV_news':NDTV,'LS_news':LS
+		});
+
+		res.res.send(datas);
+
+	};
+	data();
 
 });
 
@@ -800,6 +800,6 @@ app.get('/api/search/:q/:page',(res,req)=>{
 // listern port
 var port = 5000;
 app.listen(port,()=>{
-    console.log(`server is running in port : `,port)
+	console.log(`server is running in port : `,port)
 });
 
